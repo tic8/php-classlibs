@@ -8,7 +8,7 @@ class HttpClient
 {
     // 表单提交字符集编码
     public $postCharset = "UTF-8";
-
+    
     
     public static function curl($url='',$postFields=null,$type='post'){
         
@@ -47,11 +47,12 @@ class HttpClient
 		}
 
 		if ($postMultipart) {
-
-			$headers = array('content-type: multipart/form-data;charset=' . $this->postCharset . ';boundary=' . $this->getMillisecond());
+		    list($s1, $s2) = explode(' ', microtime());
+		    $boundary = (float)sprintf('%.0f', (floatval($s1) + floatval($s2)) * 1000);
+			$headers = array('content-type: multipart/form-data;charset=utf-8;boundary='.$boundary);
 		} else {
 
-			$headers = array('content-type: application/x-www-form-urlencoded;charset=' . $this->postCharset);
+			$headers = array('content-type: application/x-www-form-urlencoded;charset=utf-8');
 		}
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
